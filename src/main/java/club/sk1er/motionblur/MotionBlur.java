@@ -78,6 +78,7 @@ public class MotionBlur {
     public void onKey(InputEvent.KeyInputEvent event) {
         if (mc.thePlayer != null && BlurConfig.motionBlur && Keyboard.isKeyDown(mc.gameSettings.keyBindTogglePerspective.getKeyCode())) {
             mc.entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
+            mc.entityRenderer.getShaderGroup().createBindFramebuffers(mc.displayWidth, mc.displayHeight);
         }
     }
 
