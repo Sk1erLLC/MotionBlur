@@ -64,9 +64,9 @@ public class MotionBlur {
             }
         }
 
-        if (isFastRenderEnabled() && BlurConfig.motionBlur) {
-            ticks++;
-            if (ticks % 5000 == 0) {
+        ++ticks;
+        if (ticks % 5000 == 0) {
+            if (isFastRenderEnabled() && BlurConfig.motionBlur) {
                 if (mc.thePlayer != null && mc.theWorld != null) {
                     MinecraftUtils.sendMessage(EnumChatFormatting.RED + "[MotionBlur]", " Motion Blur is not compatible with OptiFine's Fast Render.");
                 }
