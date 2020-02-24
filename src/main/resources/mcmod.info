@@ -2,7 +2,7 @@
   {
     "modid": "motionblurmod",
     "name": "Motion Blur",
-    "description": "he go blur.",
+    "description": "Create a trailing effect to make things appear smoother. Continuation of 2Pi's old Motion Blur mod.",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "https://sk1er.club/",
