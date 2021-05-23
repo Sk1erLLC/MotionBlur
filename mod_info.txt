@@ -1,1 +1,0 @@
-<p>Create a trailing effect to make things appear smoother. Originally by <a href="https://2pi.pw/mods/motionblur">2Pi</a></p>
