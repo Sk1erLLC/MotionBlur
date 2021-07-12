@@ -39,7 +39,16 @@ public class MotionBlurCommand extends CommandBase {
         if (args.length == 0) {
             minecraftUtil.sendMessage(EnumChatFormatting.RED + "[MotionBlur]", " Usage: /motionblur <0 - 7>");
         } else {
-            int amount = Integer.parseInt(args[0]);
+            int amount;
+            try {
+                amount = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                minecraftUtil.sendMessage(
+                    EnumChatFormatting.RED + "[MotionBlur]",
+                    " You must provide a single number.");
+                return;
+            }
+
             if (amount >= 0 && amount <= 7) {
                 if (MotionBlur.instance.isFastRenderEnabled()) {
                     minecraftUtil.sendMessage(
