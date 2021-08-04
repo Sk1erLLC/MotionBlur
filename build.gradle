@@ -53,7 +53,7 @@ configurations {
 
 dependencies {
     embed "gg.essential:loader-launchwrapper:1.1.0"
-    implementation "gg.essential:essential-10809-forge:1282"
+    implementation "gg.essential:essential-1.8.9forge:1282"
 }
 
 task moveResources {
