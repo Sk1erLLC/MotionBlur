@@ -53,13 +53,13 @@ configurations {
 
 dependencies {
     embed "gg.essential:loader-launchwrapper:1.1.0"
-    implementation "gg.essential:essential-1.8.9forge:1282"
+    implementation "gg.essential:essential-1.8.9-forge:1282"
 }
 
 task moveResources {
     doLast {
         ant.move file: "${buildDir}/resources/main",
-                todBir: "${buildDir}/classes/java"
+                todir: "${buildDir}/classes/java"
     }
 }
 
