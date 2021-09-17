@@ -5,9 +5,11 @@ import club.sk1er.motionblur.config.BlurConfig;
 import club.sk1er.motionblur.resource.MotionBlurResourceManager;
 import gg.essential.api.EssentialAPI;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.resources.FallbackResourceManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -19,18 +21,16 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Keyboard;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-@Mod(name = "Motion Blur", modid = "motionblurmod", version = "2.1.0")
+@Mod(name = "Motion Blur", modid = "motionblurmod", version = "2.1.1")
 public class MotionBlur {
 
     private final Minecraft mc = Minecraft.getMinecraft();
-    private final Map<String, FallbackResourceManager> domainResourceManagers =
-        ((SimpleReloadableResourceManager) mc.getResourceManager()).domainResourceManagers;
+    private final Map<String, FallbackResourceManager> domainResourceManagers = ((SimpleReloadableResourceManager) mc.getResourceManager()).domainResourceManagers;
     private Field cachedFastRender;
     private int ticks;
 
@@ -79,11 +79,16 @@ public class MotionBlur {
 
     @SubscribeEvent
     public void onKey(InputEvent.KeyInputEvent event) {
-        if (mc.thePlayer != null
-            && BlurConfig.motionBlur
-            && GameSettings.isKeyDown(mc.gameSettings.keyBindTogglePerspective)) {
-            mc.entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
-            mc.entityRenderer.getShaderGroup().createBindFramebuffers(mc.displayWidth, mc.displayHeight);
+        if (mc.thePlayer != null && BlurConfig.motionBlur && GameSettings.isKeyDown(mc.gameSettings.keyBindTogglePerspective)) {
+            EntityRenderer entityRenderer = mc.entityRenderer;
+            if (entityRenderer == null) return;
+
+            entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
+
+            ShaderGroup shaderGroup = entityRenderer.getShaderGroup();
+            if (shaderGroup == null) return;
+
+            shaderGroup.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
         }
     }
 
