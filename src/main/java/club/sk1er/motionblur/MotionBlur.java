@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.resources.FallbackResourceManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -26,7 +25,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-@Mod(name = "Motion Blur", modid = "motionblurmod", version = "2.1.1")
+@Mod(name = "Motion Blur", modid = "motionblurmod", version = "2.1.2")
 public class MotionBlur {
 
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -60,8 +59,7 @@ public class MotionBlur {
     public void tick(TickEvent.ClientTickEvent event) {
         if (domainResourceManagers != null) {
             if (!domainResourceManagers.containsKey("motionblur")) {
-                domainResourceManagers.put(
-                    "motionblur", new MotionBlurResourceManager(mc.metadataSerializer_));
+                domainResourceManagers.put("motionblur", new MotionBlurResourceManager(mc.metadataSerializer_));
             }
         }
 
@@ -79,16 +77,10 @@ public class MotionBlur {
 
     @SubscribeEvent
     public void onKey(InputEvent.KeyInputEvent event) {
-        if (mc.thePlayer != null && BlurConfig.motionBlur && GameSettings.isKeyDown(mc.gameSettings.keyBindTogglePerspective)) {
+        if (BlurConfig.motionBlur && mc.thePlayer != null && GameSettings.isKeyDown(mc.gameSettings.keyBindTogglePerspective)) {
             EntityRenderer entityRenderer = mc.entityRenderer;
-            if (entityRenderer == null) return;
-
+            if (entityRenderer == null || entityRenderer.isShaderActive()) return;
             entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
-
-            ShaderGroup shaderGroup = entityRenderer.getShaderGroup();
-            if (shaderGroup == null) return;
-
-            shaderGroup.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
         }
     }
 
